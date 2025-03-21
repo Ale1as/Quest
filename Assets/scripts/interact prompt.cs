@@ -1,15 +1,20 @@
 using System.Collections;
 using UnityEngine;
+using TMPro;
+using System;
 
 public class interactprompt : MonoBehaviour
 {
-    public GameObject door_prompt;
+    public GameObject prompt;
+    public TextMeshProUGUI promptText;
+    public String HeadsUpPrompt;
 
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            door_prompt.SetActive(true);
+            prompt.SetActive(true);
+            promptText.text = HeadsUpPrompt;
             StartCoroutine(HidePromptAfterDelay());
         }
     }
@@ -18,7 +23,7 @@ public class interactprompt : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            door_prompt.SetActive(false);
+            prompt.SetActive(false);
             StopCoroutine(HidePromptAfterDelay()); // Stop coroutine if player exits early
         }
     }
@@ -26,6 +31,6 @@ public class interactprompt : MonoBehaviour
     IEnumerator HidePromptAfterDelay()
     {
         yield return new WaitForSeconds(3f);
-        door_prompt.SetActive(false);
+        prompt.SetActive(false);
     }
 }

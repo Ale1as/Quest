@@ -8,7 +8,7 @@ public class Levelchange : MonoBehaviour
     {
         if (collision.tag == "Player")
         {
-            SceneManager.LoadScene(1);
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
     }
 }

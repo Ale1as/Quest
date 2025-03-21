@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class MatchManager : MonoBehaviour
 {
@@ -8,6 +9,9 @@ public class MatchManager : MonoBehaviour
     public List<GameObject> answers;   // Assigned in Inspector
     public PlayerMovement player;
     public string abilityminigame;
+    public GameObject lossPrompt;
+    public GameObject WinPrompt;
+    public TextMeshProUGUI abilityTextObject;
     private Dictionary<GameObject, GameObject> correctMatches = new Dictionary<GameObject, GameObject>();
 
     void Start()
@@ -20,6 +24,8 @@ public class MatchManager : MonoBehaviour
                 correctMatches.Add(questions[i], answers[i]);
             }
         }
+
+        abilityTextObject.text = abilityminigame;
     }
     public void AddMatch(GameObject ques, GameObject ans)
     {
@@ -58,20 +64,13 @@ public class MatchManager : MonoBehaviour
             if (!playerMatches.ContainsKey(correctQues) || playerMatches[correctQues].name != correctAns.name)
             {
                 Debug.Log("Loss");
-                ResetLines(); // 🚫 Clear incorrect matches
+                lossPrompt.SetActive(true);
                 return;
             }
         }
 
         Debug.Log("Win"); // 🎉 If all matches are correct
-        if (abilityminigame == "Interact")
-        {
-            player.canInteract = true;
-        }
-        else if (abilityminigame == "Jump")
-        {
-            player.canJump = true;
-        }
+        WinPrompt.SetActive(true);
 
     }
 
@@ -89,4 +88,35 @@ public class MatchManager : MonoBehaviour
         playerMatches.Clear(); // 🗑 Clear all stored matches
     }
 
+    public void LossOkButton()
+    {
+        ResetLines(); // 🚫 Clear incorrect matches
+        lossPrompt.SetActive(false);
+    }
+
+    public void WinButton()
+    {
+        if (abilityminigame == "Interact")
+        {
+            player.canInteract = true;
+        }
+        else if (abilityminigame == "Jump")
+        {
+            player.canJump = true;
+        }
+        else if (abilityminigame == "Pause")
+        {
+            player.canPause = true;
+        }
+
+        WinPrompt.SetActive(false);
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ResetLines();
+        }
+    }
 }

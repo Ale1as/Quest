@@ -11,10 +11,12 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 7f;
     public bool canJump = false;
     public bool canInteract = false;
+    public bool canPause = false; // ✅ New variable to control pausing
     public GameObject MiniGame;
 
     private Rigidbody2D rb;
     private bool isGrounded;
+    private bool isPaused = false;
 
     void Start()
     {
@@ -23,29 +25,35 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        // Always allow left-right movement
-        float moveInput = Input.GetAxis("Horizontal");
-        rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
-
-        // Jump if allowed and grounded
-        if (canJump && isGrounded && Input.GetKeyDown(KeyCode.Space))
+        if (!isPaused)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            // Always allow left-right movement
+            float moveInput = Input.GetAxis("Horizontal");
+            rb.velocity = new Vector2(moveInput * moveSpeed, rb.velocity.y);
+
+            // Jump if allowed and grounded
+            if (canJump && isGrounded && Input.GetKeyDown(KeyCode.Space))
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            }
+
+            // Interact if allowed
+            if (canInteract && Input.GetKeyDown(KeyCode.E))
+            {
+                TryInteract();
+            }
+
+            // Toggle MiniGame
+            if (Input.GetKeyDown(KeyCode.V))
+            {
+                MiniGame.SetActive(!MiniGame.activeInHierarchy);
+            }
         }
 
-        // Interact if allowed
-        if (canInteract && Input.GetKeyDown(KeyCode.E))
+        // Pause game if allowed
+        if (canPause && Input.GetKeyDown(KeyCode.Escape))
         {
-            TryInteract();
-        }
-
-        if (Input.GetKeyDown(KeyCode.V) && !MiniGame.activeInHierarchy)
-        {
-            MiniGame.SetActive(true);
-        }
-        else if (Input.GetKeyDown(KeyCode.V) && MiniGame.activeInHierarchy)
-        {
-            MiniGame.SetActive(false);
+            TogglePause();
         }
     }
 
@@ -77,5 +85,12 @@ public class PlayerMovement : MonoBehaviour
                 break;
             }
         }
+    }
+
+    void TogglePause()
+    {
+        isPaused = !isPaused;
+        Time.timeScale = isPaused ? 0f : 1f; // ✅ Pause/unpause game
+        Debug.Log(isPaused ? "Game Paused" : "Game Resumed");
     }
 }

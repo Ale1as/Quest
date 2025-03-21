@@ -17,7 +17,7 @@ public class LineManager : MonoBehaviour
 
     private GameObject selectedQues; // Store the actual "ques" object
     private GameObject selectedAns; // Store the actual "ans" object
-
+    public Transform lineParent;
     void Update()
     {
         if (isDrawing && currentLine != null)
@@ -74,17 +74,17 @@ public class LineManager : MonoBehaviour
             return; // 🚫 Prevent multiple lines
         }
 
-        // Instantiate a new line object
-        GameObject newLine = Instantiate(linePrefab, canvasTransform);
+        // Instantiate a new line object under the specified parent
+        GameObject newLine = Instantiate(linePrefab, lineParent);
         currentLine = newLine.GetComponent<DrawLine>();
 
         // Create UI elements for pointA and pointB
         GameObject pointAObj = new GameObject("PointA", typeof(RectTransform));
         GameObject pointBObj = new GameObject("PointB", typeof(RectTransform));
 
-        // Set them as children of the canvas
-        pointAObj.transform.SetParent(canvasTransform);
-        pointBObj.transform.SetParent(canvasTransform);
+        // Set them as children of the lineParent instead of canvasTransform
+        pointAObj.transform.SetParent(lineParent);
+        pointBObj.transform.SetParent(lineParent);
 
         // Get RectTransform components
         RectTransform pointA = pointAObj.GetComponent<RectTransform>();
