@@ -7,11 +7,13 @@ TagManager:
   - ques
   - ans
   - Ground
+  - Block
+  - MiningArea
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Gound
   - Water
   - UI
   - 
