@@ -9,12 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/interact scene.unity
     guid: 29a1efd9afbd37a4d86a9519e35ee339
   - enabled: 0
-    path: Assets/Scenes/jump scene.unity
+    path: Assets/Scenes/samarth/jump scene.unity
     guid: ed0a34b0373d62749959594b143125a0
   - enabled: 0
-    path: Assets/Scenes/Pause scene.unity
+    path: Assets/Scenes/samarth/Pause scene.unity
     guid: d101e127143b4ca47b179ea5baab5595
   - enabled: 1
-    path: Assets/Aaryan/Scenes/SampleScene.unity
+    path: Assets/Scenes/Aaryan/SampleScene.unity
     guid: b9528871b37fb8446bf153771b810075
   m_configObjects: {}
